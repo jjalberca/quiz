@@ -18,15 +18,18 @@ exports.index = function(req, res) {
   
   if (typeof req.query.search == "string" && req.query.search.trim() != ""){
     models.Quiz.findAll({where: ["pregunta like ?", "%"+req.query.search+"%"], order: 'pregunta ASC'}).then(function(quizes){
-      res.render('quizes/index.ejs', { quizes: quizes, errors: [] })}).catch(function(error){next(error);});
+      res.render('quizes/index.ejs', { 
+        quizes: quizes, 
+        errors: [] })
+    }).catch(function(error){next(error);});
   }
   else {
     models.Quiz.findAll().then(function(quizes) {
-    res.render('quizes/index', { quizes: quizes, errors: [] })}).catch(function(error){next(error);});
-  }
-  /*models.Quiz.findAll().then(function(quizes) {
-    res.render('quizes/index.ejs', { quizes: quizes});
-  })*/
+      res.render('quizes/index', { 
+        quizes: quizes, 
+        errors: [] })
+      }).catch(function(error){next(error);});
+    }
 };
 
 
@@ -65,7 +68,7 @@ exports.create = function(req, res) {
         quiz.save({fields: ["pregunta", "respuesta"]}).then( function(){ res.redirect('/quizes')}) 
       } // res.redirect: Redirección HTTP a lista de preguntas
     }
-  );
+  ).catch(function(error){next(error)});
 };
 
 // GET /quizes/:id/edit
@@ -92,5 +95,12 @@ exports.update = function(req, res) {
         .then( function(){ res.redirect('/quizes');});
       }     // Redirección HTTP a lista de preguntas (URL relativo)
     }
-  );
+  ).catch(function(error){next(error)});
+};
+
+// DELETE /quizes/:id
+exports.destroy = function(req, res) {
+  req.quiz.destroy().then( function() {
+    res.redirect('/quizes');
+  }).catch(function(error){next(error)});
 };
