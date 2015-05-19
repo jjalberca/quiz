@@ -1,0 +1,59 @@
+<p><h2>Estadísticas</h2></p>
+
+<table>       
+    <tr>
+      <th>Preguntas publicadas: </th>
+      <td><%= preguntas.length %></td>
+    </tr>
+    <tr>
+      <th>Comentarios publicados: </th>
+      <td>
+      <%
+      var comments=0;
+      for(i in preguntas){
+        for (index in preguntas[i].Comments){
+        comments++;}
+        }
+      %>
+      <%= comments %>
+      </td>
+    </tr>
+    <tr>
+      <th>Número medio de comentarios por pregunta: </th>
+      <td>
+      <% var media = 0; var suma = 0;
+        for (i in preguntas){
+          suma = suma+preguntas[i].Comments.length;
+      }
+      media = suma/preguntas.length;
+      %>
+      <%= media %>
+      </td>
+    </tr>
+    <tr>
+      <th>Preguntas sin comentarios: </th>
+      <td>
+      <%var a=0;
+      for(i in preguntas){
+        if(preguntas[i].Comments.length==0){
+          a=a+1;
+        }
+      }%>
+      <%= a%>
+      </td>
+    </tr>
+    <tr>
+      <th>Preguntas con comentario: </th>
+      <td>
+      <%var b=0;
+      for(i in preguntas){
+        
+        if(preguntas[i].Comments.length!=0){
+          b=b+1;}
+        }
+      %>
+      <%= b%>
+      </td>
+    </tr>
+</table>
+<p/>

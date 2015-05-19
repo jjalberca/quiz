@@ -43,6 +43,21 @@ app.use(function(req, res, next) {
   next();
 });
 
+//comprueba el tiempo de sesión inactiva del usuario y si cumple más de dos minutos hace logout.
+app.use(function(req, res, next) {
+  if (req.session.user) {
+    if (req.session.time){
+      var inicio = new Date(req.session.time);
+      var fin = (new Date() - inicio)/1000;
+      if (fin >= 120){
+        delete req.session.user;
+      }
+    }
+    req.session.time = (new Date()).toString();
+  }
+  next();
+});
+
 
 app.use('/', routes);
 //app.use('/users', users);
