@@ -44,6 +44,7 @@ Quiz.hasMany(Comment);
 Quiz.belongsTo(User);
 User.hasMany(Quiz);
 
+
 exports.Quiz = Quiz; // exportar tabla Quiz
 exports.Comment = Comment; //exportar tabla Comment
 exports.User = User; //exportar tabla User
