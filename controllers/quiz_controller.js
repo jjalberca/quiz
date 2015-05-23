@@ -25,7 +25,13 @@ exports.load = function(req, res, next, quizId) {
 };
 
 // GET /quizes
+// GET /users/:userId/quizes
 exports.index = function(req, res) {
+
+  var options = {};
+  if(req.user){
+    options.where = {UserId: req.user.id}
+  }
   
   if (typeof req.query.search == "string" && req.query.search.trim() != ""){
     models.Quiz.findAll({where: ["pregunta like ?", "%"+req.query.search+"%"], order: 'pregunta ASC'}).then(function(quizes){
@@ -35,7 +41,7 @@ exports.index = function(req, res) {
     }).catch(function(error){next(error);});
   }
   else {
-    models.Quiz.findAll().then(function(quizes) {
+    models.Quiz.findAll(options).then(function(quizes) {
       res.render('quizes/index', { 
         quizes: quizes, 
         errors: [] })
